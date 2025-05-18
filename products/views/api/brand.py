@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from asgiref.sync import sync_to_async
 from drf_spectacular.utils import extend_schema
-import products.repositories.brand as brand_repository
-from products.serializers import BrandSerializer
+import products.services.brand as brand_service
+from products.serializers.brand import BrandSerializer
 
 
 # Category Views
@@ -16,7 +16,7 @@ class BrandAPIView(APIView):
         responses={200: BrandSerializer(many=True)}
     )
     async def get(self, request):
-        data = await sync_to_async(brand_repository.get_all)()
+        data = await sync_to_async(brand_service.get_all)()
         return Response(data, status=status.HTTP_200_OK)
 
     @extend_schema(
@@ -26,7 +26,7 @@ class BrandAPIView(APIView):
         responses={201: BrandSerializer}
     )
     async def post(self, request):
-        data = await sync_to_async(brand_repository.create)(request.data)
+        data = await sync_to_async(brand_service.create)(request.data)
         return Response(data, status=status.HTTP_201_CREATED)
 
 
@@ -38,7 +38,7 @@ class BrandDetailAPIView(APIView):
         responses={200: BrandSerializer}
     )
     async def get(self, request, pk):
-        data = await sync_to_async(brand_repository.get)(pk)
+        data = await sync_to_async(brand_service.get)(pk)
         return Response(data)
 
     @extend_schema(
@@ -47,7 +47,7 @@ class BrandDetailAPIView(APIView):
         responses={200: BrandSerializer}
     )
     async def patch(self, request, pk):
-        data = await sync_to_async(brand_repository.update)(pk, request.data)
+        data = await sync_to_async(brand_service.update)(pk, request.data)
         return Response(data, status=status.HTTP_200_OK)
 
     @extend_schema(
@@ -56,5 +56,5 @@ class BrandDetailAPIView(APIView):
     )
     
     async def delete(self, request, pk):
-        await sync_to_async(brand_repository.delete)(pk)
+        await sync_to_async(brand_service.delete)(pk)
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -1,5 +1,5 @@
-from products.models import Keyword
-from products.serializers import KeywordSerializer
+from products.models.keyword import Keyword
+from products.serializers.keyword import KeywordSerializer
 from django.db import transaction
 from django.http import Http404
 from django.core.exceptions import ValidationError

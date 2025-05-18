@@ -4,10 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
-from products.serializers import ProductSerializer
-import logging
-import products.services.search as  search_service
-logger = logging.getLogger(__name__)
+from products.serializers.product import ProductSerializer
+from products.services.product import search_products_by_word
 
 class SearchAPIView(APIView):
     @extend_schema(
@@ -69,7 +67,7 @@ class SearchAPIView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         # Combine results, removing duplicates by product ID
-        combined_results = await sync_to_async(search_service.search_products_by_word)(words, page, page_size, similarity_threshold)
+        combined_results = await sync_to_async(search_products_by_word)(words, page, page_size, similarity_threshold)
     
         if not combined_results:
             return Response(

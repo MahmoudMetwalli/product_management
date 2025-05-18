@@ -1,9 +1,7 @@
 import uuid
 from django.db import models, transaction
-from django.contrib.postgres.indexes import GinIndex
 from django.core.exceptions import ValidationError
 
-# Enhanced TransliterationMixin with bidirectional capabilities
 
 class TransliterationMixin:
     def generate_transliteration(self):
@@ -75,6 +73,7 @@ class TransliterationMixin:
         
         return result
 
+
 class BaseModelMixin(models.Model):
     """Base mixin providing common fields for all models."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -129,47 +128,3 @@ class BaseNamedModelMixin(BaseModelMixin, TransliterationMixin):
             self.name_translit = self.generate_transliteration()
             self.arabic_translit = self.generate_reverse_transliteration()
             super().save(*args, **kwargs)
-
-
-class Keyword(BaseNamedModelMixin):
-    class Meta:
-        verbose_name = "Keyword"
-        verbose_name_plural = "Keywords"
-        ordering = ['english_name']
-        indexes = [
-            GinIndex(fields=['arabic_name'], name='ky_arabic_name_gin_idx', opclasses=['gin_trgm_ops']),
-            GinIndex(fields=['english_name'], name='ky_english_name_gin_idx', opclasses=['gin_trgm_ops']),
-            GinIndex(fields=['name_translit'], name='ky_translit_gin_idx', opclasses=['gin_trgm_ops']),
-            GinIndex(fields=['arabic_translit'], name='ky_arabic_translit_gin_idx', opclasses=['gin_trgm_ops']),
-            models.Index(fields=['version'], name='ky_version_idx'),
-        ]
-
-
-class Brand(BaseNamedModelMixin):
-    class Meta:
-        verbose_name = "Brand"
-        verbose_name_plural = "Brands"
-        ordering = ['english_name']
-        indexes = [
-            GinIndex(fields=['arabic_name'], name='br_arabic_name_gin_idx', opclasses=['gin_trgm_ops']),
-            GinIndex(fields=['english_name'], name='br_english_name_gin_idx', opclasses=['gin_trgm_ops']),
-            GinIndex(fields=['name_translit'], name='br_translit_gin_idx', opclasses=['gin_trgm_ops']),
-            GinIndex(fields=['arabic_translit'], name='br_arabic_translit_gin_idx', opclasses=['gin_trgm_ops']),
-            models.Index(fields=['version'], name='br_version_idx'),
-        ]
-
-
-class Product(BaseNamedModelMixin):
-    # Only need to define what's unique to Product
-    brand = models.ForeignKey(Brand, on_delete=models.PROTECT, related_name='products')
-    keywords = models.ManyToManyField(Keyword, related_name='products', blank=True)
-    nutrition_facts = models.JSONField(default=dict, blank=True)
-    
-    class Meta:
-        indexes = [
-            GinIndex(fields=['arabic_name'], name='prod_arabic_name_gin_idx', opclasses=['gin_trgm_ops']),
-            GinIndex(fields=['english_name'], name='prod_english_name_gin_idx', opclasses=['gin_trgm_ops']),
-            GinIndex(fields=['name_translit'], name='prod_name_translit_gin_idx', opclasses=['gin_trgm_ops']),
-            GinIndex(fields=['arabic_translit'], name='prod_arabic_translit_gin_idx', opclasses=['gin_trgm_ops']),
-            models.Index(fields=['version'], name='prod_version_idx'),
-        ]
