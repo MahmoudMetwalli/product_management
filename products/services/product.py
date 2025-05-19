@@ -1,7 +1,38 @@
 import os
-from django.core.cache import cache
 import json
-from products.repositories.product import search_products_by_word as product_search
+from django.core.cache import cache
+import products.repositories.product as product_repo
+
+
+def get_all():
+    """
+    Get all categories.
+    """
+    return product_repo.get_all()
+
+def create(data):
+    """
+    Create a new category.
+    """
+    return product_repo.create(data)
+
+def get(pk):
+    """
+    Get a specific category.
+    """
+    return product_repo.get(pk)
+
+def update(pk, data):
+    """
+    Update a category.
+    """
+    return product_repo.update(pk, data)
+
+def delete(pk):
+    """
+    Delete a category.
+    """
+    product_repo.delete(pk)
 
 def search_products_by_word(words: list[str], page=1, page_size=20, similarity_threshold=0.3):
     """Search products by a single word, including fuzzy matching on related brands and keywords."""
@@ -18,7 +49,7 @@ def search_products_by_word(words: list[str], page=1, page_size=20, similarity_t
     if cached_results:
         return json.loads(cached_results)
 
-    results = product_search(words, page, page_size, similarity_threshold)
+    results = product_repo.search_products_by_word(words, page, page_size, similarity_threshold)
 
     # Cache results
     if results:

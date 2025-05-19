@@ -1,12 +1,10 @@
-from products.models import Product
-from products.serializers import ProductSerializer
 from django.db import transaction
 from django.http import Http404
 from django.core.exceptions import ValidationError
 from django.db.models import Q, FloatField, ExpressionWrapper, F
 from django.db.models.functions import Greatest
-from products.models import Product
-from products.serializers import ProductSerializer
+from products.models.product import Product
+from products.serializers.product import ProductSerializer
 from django.contrib.postgres.search import TrigramSimilarity
 from products.utils.is_arabic import is_arabic
 

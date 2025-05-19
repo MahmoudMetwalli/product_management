@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from asgiref.sync import sync_to_async
 from drf_spectacular.utils import extend_schema
-import products.repositories.product as product_repository
-from products.serializers import ProductSerializer
+import products.services.product as product_service
+from products.serializers.product import ProductSerializer
 
 # Product Views
 @extend_schema(tags=["Products"])
@@ -15,7 +15,7 @@ class ProductAPIView(APIView):
         responses={200: ProductSerializer(many=True)}
     )
     async def get(self, request):
-        data = await sync_to_async(product_repository.get_all)()
+        data = await sync_to_async(product_service.get_all)()
         return Response(data, status=status.HTTP_200_OK)
 
     @extend_schema(
@@ -25,7 +25,7 @@ class ProductAPIView(APIView):
         responses={201: ProductSerializer}
     )
     async def post(self, request):
-        data = await sync_to_async(product_repository.create)(request.data)
+        data = await sync_to_async(product_service.create)(request.data)
         return Response(data, status=status.HTTP_201_CREATED)
 
 
@@ -38,7 +38,7 @@ class ProductDetailAPIView(APIView):
         responses={200: ProductSerializer}
     )
     async def get(self, request, pk):
-        data = await sync_to_async(product_repository.get)(pk)
+        data = await sync_to_async(product_service.get)(pk)
         return Response(data)
 
     @extend_schema(
@@ -48,7 +48,7 @@ class ProductDetailAPIView(APIView):
         responses={200: ProductSerializer}
     )
     async def patch(self, request, pk):
-        data = await sync_to_async(product_repository.update)(pk, request.data)
+        data = await sync_to_async(product_service.update)(pk, request.data)
         return Response(data, status=status.HTTP_200_OK)
 
     @extend_schema(
@@ -57,5 +57,5 @@ class ProductDetailAPIView(APIView):
         responses={204: None}
     )
     async def delete(self, request, pk):
-        await sync_to_async(product_repository.delete)(pk)
+        await sync_to_async(product_service.delete)(pk)
         return Response(status=status.HTTP_204_NO_CONTENT)

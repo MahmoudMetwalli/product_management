@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Product, Brand, Keyword
+from products.models.product import Product
+from products.models.brand import Brand
+from products.models.keyword import Keyword
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):

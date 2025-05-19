@@ -1,38 +1,13 @@
 from adrf.serializers import ModelSerializer
 from rest_framework import serializers
-from .models import Product, Brand, Keyword
+from products.models.product import Product
+from products.models.brand import Brand
+from products.models.keyword import Keyword
+from products.serializers.brand import BrandSerializer
+from products.serializers.keyword import KeywordSerializer
 from drf_spectacular.utils import extend_schema_serializer, OpenApiExample
 
 
-class BrandSerializer(ModelSerializer):
-    """
-    Serializer for Brand model
-    """
-    class Meta:
-        model = Brand
-        fields = ('id', 'arabic_name', 'english_name', 'created_at', 'updated_at')
-        read_only_fields = ('id', 'created_at', 'updated_at')
-        extra_kwargs = {
-            'arabic_name': {'required': True},
-            'english_name': {'required': True}
-        }
-
-
-class KeywordSerializer(ModelSerializer):
-    """
-    Serializer for Keyword model
-    """
-    class Meta:
-        model = Keyword
-        fields = ('id', 'arabic_name', 'english_name', 'created_at', 'updated_at')
-        read_only_fields = ('id', 'created_at', 'updated_at')
-        extra_kwargs = {
-            'arabic_name': {'required': True},
-            'english_name': {'required': True}
-        }
-
-
-# Updated ProductSerializer to include version field
 @extend_schema_serializer(
     examples=[
         OpenApiExample(
@@ -63,8 +38,8 @@ class KeywordSerializer(ModelSerializer):
                 },
                 "brand": {
                     "id": "uuid-here",
-                    "arabic_name": "فئة",
-                    "english_name": "Category"
+                    "arabic_name": "علامة تجارية",
+                    "english_name": "Brand"
                 },
                 "keywords": [
                     {

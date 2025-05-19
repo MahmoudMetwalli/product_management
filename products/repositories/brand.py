@@ -1,5 +1,5 @@
-from products.models import Brand
-from products.serializers import BrandSerializer
+from products.models.brand import Brand
+from products.serializers.brand import BrandSerializer
 from django.db import transaction
 from django.http import Http404
 from django.core.exceptions import ValidationError

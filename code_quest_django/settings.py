@@ -16,7 +16,7 @@ SECRET_KEY = "django-insecure-s+kky9b0d+eim2gn^p-8=2h!(vmcv+r)u)$&@(a3!xb^&d7v5o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 0)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -72,8 +72,8 @@ ASGI_APPLICATION = "code_quest_django.asgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'chat'),
-        'USER': os.getenv('DB_USER', 'mahmoud'),
+        'NAME': os.getenv('DB_NAME', 'products_db'),
+        'USER': os.getenv('DB_USER', 'products_admin'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'simple#system567'),
         'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': os.getenv('DB_PORT', '5432'),
