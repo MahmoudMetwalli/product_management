@@ -1,0 +1,749 @@
+openapi: 3.0.3
+info:
+  title: Code Quest API
+  version: 1.0.0
+  description: API documentation for the Code Quest project
+paths:
+  /api/brands/:
+    get:
+      operationId: brands_list
+      description: Returns a list of all product brands
+      summary: List all brands
+      tags:
+      - Brands
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Brand'
+          description: ''
+    post:
+      operationId: brands_create
+      description: Creates a new product brand
+      summary: Create a new brand
+      tags:
+      - Brands
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Brand'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+          description: ''
+  /api/brands/{id}/:
+    get:
+      operationId: brands_retrieve
+      summary: Get a specific brand
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Brands
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+          description: ''
+    patch:
+      operationId: brands_partial_update
+      summary: Update a brand
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Brands
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBrand'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+          description: ''
+    delete:
+      operationId: brands_destroy
+      summary: Delete a brand
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Brands
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/keywords/:
+    get:
+      operationId: keywords_list
+      summary: List all keywords
+      tags:
+      - Keywords
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Keyword'
+          description: ''
+    post:
+      operationId: keywords_create
+      summary: Create a new keyword
+      tags:
+      - Keywords
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Keyword'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Keyword'
+          description: ''
+  /api/keywords/{id}/:
+    get:
+      operationId: keywords_retrieve
+      summary: Get a specific keyword
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Keywords
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Keyword'
+          description: ''
+    patch:
+      operationId: keywords_partial_update
+      summary: Update a keyword
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Keywords
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedKeyword'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Keyword'
+          description: ''
+    delete:
+      operationId: keywords_destroy
+      summary: Delete a keyword
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Keywords
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/products/:
+    get:
+      operationId: products_list
+      description: Returns a list of all products with associated categories and keywords
+      summary: List all products
+      tags:
+      - Products
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+              examples:
+                ProductResponseExample:
+                  value:
+                  - id: uuid-here
+                    arabic_name: منتج
+                    english_name: Product
+                    nutrition_facts:
+                      calories: 200
+                      fat: 10g
+                      protein: 5g
+                    brand:
+                      id: uuid-here
+                      arabic_name: علامة تجارية
+                      english_name: Brand
+                    keywords:
+                    - id: uuid-here
+                      arabic_name: كلمة مفتاحية
+                      english_name: Keyword
+                    created_at: '2023-10-01T00:00:00Z'
+                    updated_at: '2023-10-01T00:00:00Z'
+                  summary: Product Response Example
+          description: ''
+    post:
+      operationId: products_create
+      description: Creates a new product with the provided data
+      summary: Create a new product
+      tags:
+      - Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+            examples:
+              ProductExample:
+                value:
+                  arabic_name: منتج
+                  english_name: Product
+                  nutrition_facts:
+                    calories: 200
+                    fat: 10g
+                    protein: 5g
+                  brand_id: uuid-here
+                  keyword_ids:
+                  - uuid-here
+                summary: Product Example
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                ProductResponseExample:
+                  value:
+                    id: uuid-here
+                    arabic_name: منتج
+                    english_name: Product
+                    nutrition_facts:
+                      calories: 200
+                      fat: 10g
+                      protein: 5g
+                    brand:
+                      id: uuid-here
+                      arabic_name: علامة تجارية
+                      english_name: Brand
+                    keywords:
+                    - id: uuid-here
+                      arabic_name: كلمة مفتاحية
+                      english_name: Keyword
+                    created_at: '2023-10-01T00:00:00Z'
+                    updated_at: '2023-10-01T00:00:00Z'
+                  summary: Product Response Example
+          description: ''
+  /api/products/{id}/:
+    get:
+      operationId: products_retrieve
+      description: Returns details of a specific product by ID
+      summary: Get a specific product
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Products
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                ProductResponseExample:
+                  value:
+                    id: uuid-here
+                    arabic_name: منتج
+                    english_name: Product
+                    nutrition_facts:
+                      calories: 200
+                      fat: 10g
+                      protein: 5g
+                    brand:
+                      id: uuid-here
+                      arabic_name: علامة تجارية
+                      english_name: Brand
+                    keywords:
+                    - id: uuid-here
+                      arabic_name: كلمة مفتاحية
+                      english_name: Keyword
+                    created_at: '2023-10-01T00:00:00Z'
+                    updated_at: '2023-10-01T00:00:00Z'
+                  summary: Product Response Example
+          description: ''
+    patch:
+      operationId: products_partial_update
+      description: Partially updates a product with the provided data, using optimistic
+        locking
+      summary: Update a product
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProduct'
+            examples:
+              ProductExample:
+                value:
+                  arabic_name: منتج
+                  english_name: Product
+                  nutrition_facts:
+                    calories: 200
+                    fat: 10g
+                    protein: 5g
+                  brand_id: uuid-here
+                  keyword_ids:
+                  - uuid-here
+                summary: Product Example
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                ProductResponseExample:
+                  value:
+                    id: uuid-here
+                    arabic_name: منتج
+                    english_name: Product
+                    nutrition_facts:
+                      calories: 200
+                      fat: 10g
+                      protein: 5g
+                    brand:
+                      id: uuid-here
+                      arabic_name: علامة تجارية
+                      english_name: Brand
+                    keywords:
+                    - id: uuid-here
+                      arabic_name: كلمة مفتاحية
+                      english_name: Keyword
+                    created_at: '2023-10-01T00:00:00Z'
+                    updated_at: '2023-10-01T00:00:00Z'
+                  summary: Product Response Example
+          description: ''
+    delete:
+      operationId: products_destroy
+      description: Deletes a specific product by ID
+      summary: Delete a product
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Products
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/search/:
+    get:
+      operationId: search_list
+      description: Searches products by query string, splitting into words and searching
+        in Arabic or English fields based on language detection. Results are cached
+        in Redis.
+      summary: Search for products
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: Page number for pagination. Default is 1.
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+        description: Number of results per page. Default is 20.
+      - in: query
+        name: query
+        schema:
+          type: string
+        description: Search query string. Can contain multiple words to search for.
+        required: true
+      - in: query
+        name: similarity_threshold
+        schema:
+          type: number
+          format: float
+        description: Threshold for similarity matching. Default is 0.3.
+      tags:
+      - search
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+              examples:
+                ProductResponseExample:
+                  value:
+                  - id: uuid-here
+                    arabic_name: منتج
+                    english_name: Product
+                    nutrition_facts:
+                      calories: 200
+                      fat: 10g
+                      protein: 5g
+                    brand:
+                      id: uuid-here
+                      arabic_name: علامة تجارية
+                      english_name: Brand
+                    keywords:
+                    - id: uuid-here
+                      arabic_name: كلمة مفتاحية
+                      english_name: Keyword
+                    created_at: '2023-10-01T00:00:00Z'
+                    updated_at: '2023-10-01T00:00:00Z'
+                  summary: Product Response Example
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+          description: ''
+components:
+  schemas:
+    Brand:
+      type: object
+      description: Serializer for Brand model
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        arabic_name:
+          type: string
+          maxLength: 200
+        english_name:
+          type: string
+          maxLength: 200
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - arabic_name
+      - created_at
+      - english_name
+      - id
+      - updated_at
+    Keyword:
+      type: object
+      description: Serializer for Keyword model
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        arabic_name:
+          type: string
+          maxLength: 200
+        english_name:
+          type: string
+          maxLength: 200
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - arabic_name
+      - created_at
+      - english_name
+      - id
+      - updated_at
+    PatchedBrand:
+      type: object
+      description: Serializer for Brand model
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        arabic_name:
+          type: string
+          maxLength: 200
+        english_name:
+          type: string
+          maxLength: 200
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedKeyword:
+      type: object
+      description: Serializer for Keyword model
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        arabic_name:
+          type: string
+          maxLength: 200
+        english_name:
+          type: string
+          maxLength: 200
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedProduct:
+      type: object
+      description: Base serializer class.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        arabic_name:
+          type: string
+          maxLength: 200
+        english_name:
+          type: string
+          maxLength: 200
+        nutrition_facts: {}
+        brand:
+          allOf:
+          - $ref: '#/components/schemas/Brand'
+          readOnly: true
+        brand_id:
+          type: string
+          format: uuid
+          writeOnly: true
+        keywords:
+          type: array
+          items:
+            $ref: '#/components/schemas/Keyword'
+          readOnly: true
+        keyword_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            writeOnly: true
+          writeOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    Product:
+      type: object
+      description: Base serializer class.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        arabic_name:
+          type: string
+          maxLength: 200
+        english_name:
+          type: string
+          maxLength: 200
+        nutrition_facts: {}
+        brand:
+          allOf:
+          - $ref: '#/components/schemas/Brand'
+          readOnly: true
+        brand_id:
+          type: string
+          format: uuid
+          writeOnly: true
+        keywords:
+          type: array
+          items:
+            $ref: '#/components/schemas/Keyword'
+          readOnly: true
+        keyword_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            writeOnly: true
+          writeOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - arabic_name
+      - brand
+      - brand_id
+      - created_at
+      - english_name
+      - id
+      - keywords
+      - updated_at
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

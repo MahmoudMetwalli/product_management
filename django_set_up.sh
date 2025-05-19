@@ -23,3 +23,4 @@ python manage.py makemigrations
 python manage.py migrate
 
 echo "Django setup complete!"
+echo "Run the application using uvicorn code_quest_django.asgi:application to benifit from ASGI features."
