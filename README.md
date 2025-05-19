@@ -90,3 +90,7 @@ uvicorn code_quest_django.asgi:application
 - All setup scripts should be run from the project root directory
 - Check script permissions if you encounter "Permission denied" errors
 - Run the server using uvicorn code_quest_django.asgi:application
+
+## Video Links
+- Part One: https://youtu.be/TF_vPaFXRnA
+- Part Two: https://www.youtube.com/watch?v=Efqa577y-hQ
